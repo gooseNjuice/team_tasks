@@ -25,11 +25,10 @@ export const api = createApi({
                 return `teams/${teamId}/tasks${qs ? `?${qs}` : ""}`;
             },
         }),
+        getTask: build.query<Task, { teamId: string; taskId: string }>({
+            query: ({ teamId, taskId }) => `teams/${teamId}/tasks/${taskId}`,
+        }),
     }),
 });
 
-export const getTask: build.query<Task, {taskId: string}> = () => {
-
-}
-
-export const { useGetTasksQuery } = api;
+export const { useGetTasksQuery, useGetTaskQuery } = api;

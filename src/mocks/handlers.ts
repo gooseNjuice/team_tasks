@@ -48,4 +48,16 @@ export const handlers = [
 
         return HttpResponse.json(slice);
     }),
+    // GET /api/teams/:teamId/tasks/:taskId
+    http.get("/api/teams/:teamId/tasks/:taskId", ({ params }) => {
+        const teamId = String(params.teamId);
+        const taskId = String(params.taskId);
+        const task = getDb(teamId).find((item) => item.id === taskId);
+
+        if (!task) {
+            return HttpResponse.json({ message: "Task not found" }, { status: 404 });
+        }
+
+        return HttpResponse.json(task);
+    }),
 ];
