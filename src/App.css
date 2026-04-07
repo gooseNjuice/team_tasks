@@ -1,24 +1,134 @@
-@media (min-width: 30rem){
-
-}
-@media (min-width: 48rem){
-
-}
-@media (min-width: 64rem){
-
-}
-@media (min-width: 80rem){
-
+.app-shell {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
 }
 
-@media (prefers-reduced-motion: reduce){
-
+.panel {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+    padding: 1.25rem;
 }
 
-@media (prefers-color-scheme: dark) {
-    
+.panel--detail {
+    align-self: start;
 }
 
-@media (hover: hover) and (pointer: fine) {
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: start;
+    margin-bottom: 1rem;
+}
 
+.eyebrow {
+    margin: 0 0 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    color: #b45309;
+}
+
+.status-pill {
+    background: #fff7ed;
+    color: #9a3412;
+    border-radius: 999px;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.task-list {
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0;
+}
+
+.task-card {
+    width: 100%;
+    text-align: left;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    color: #0f172a;
+    padding: 1rem;
+    border-radius: 18px;
+}
+
+.task-card:hover {
+    border-color: #fb923c;
+}
+
+.task-card--active {
+    border-color: #ea580c;
+    box-shadow: 0 12px 30px rgba(234, 88, 12, 0.18);
+}
+
+.task-card__title {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.45rem;
+}
+
+.task-card__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: #475569;
+    font-size: 0.92rem;
+}
+
+.detail-card {
+    background: linear-gradient(135deg, #fff7ed, #ffffff);
+    border-radius: 20px;
+    padding: 1.25rem;
+    min-height: 16rem;
+}
+
+.detail-card h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin: 0;
+}
+
+.detail-grid dt {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #78716c;
+    margin-bottom: 0.3rem;
+}
+
+.detail-grid dd {
+    margin: 0;
+    font-weight: 600;
+    color: #111827;
+}
+
+.empty-state,
+.app-state {
+    margin: 0;
+    color: #475569;
+}
+
+@media (min-width: 64rem) {
+    .app-shell {
+        grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
 }
