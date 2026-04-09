@@ -1,113 +1,93 @@
-import { skipToken } from "@reduxjs/toolkit/query";
-import { useEffect, useState } from "react";
 import "./App.css";
-import { useGetTaskQuery, useGetTasksQuery } from "./services/api";
-
-const teamId = "t1";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { NotificationList } from "./features/notifications/NotificationList";
+import { TaskDetails } from "./features/tasks/TaskDetails";
+import { TaskListPage } from "./features/tasks/TaskListPage";
+import { KanbanBoard } from "./features/tasks/KanbanBoard";
+import { selectTaskCountsByStatus, selectTopTasksByLikes } from "./features/tasks/tasksSlice";
+import { setActiveView } from "./features/ui/uiSlice";
 
 export default function App() {
-    const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
-
-    const { data: tasks = [], isLoading, isFetching, error } = useGetTasksQuery({
-        teamId,
-        status: "todo",
-        page: 1,
-    });
-
-    useEffect(() => {
-        if (!selectedTaskId && tasks.length > 0) {
-            setSelectedTaskId(tasks[0].id);
-        }
-    }, [selectedTaskId, tasks]);
-
-    const selectedTaskQueryArg = selectedTaskId ? { teamId, taskId: selectedTaskId } : skipToken;
-    const {
-        data: selectedTask,
-        isLoading: isTaskLoading,
-        isFetching: isTaskFetching,
-        error: selectedTaskError,
-    } = useGetTaskQuery(selectedTaskQueryArg);
-
-    if (isLoading) return <div className="app-state">Loading...</div>;
-    if (error) return <div className="app-state">Could not load tasks.</div>;
+    const dispatch = useAppDispatch();
+    const teamId = useAppSelector((state) => state.ui.teamId);
+    const activeView = useAppSelector((state) => state.ui.activeView);
+    const topTasks = useAppSelector((state) => selectTopTasksByLikes(state, teamId));
+    const taskCounts = useAppSelector((state) => selectTaskCountsByStatus(state, teamId));
 
     return (
         <main className="app-shell">
-            <section className="panel">
-                <div className="panel-header">
-                    <div>
-                        <p className="eyebrow">Team board</p>
-                        <h1>Team Tasks</h1>
-                    </div>
-                    <span className="status-pill">Refreshing: {String(isFetching)}</span>
+            <NotificationList />
+
+            <header className="hero">
+                <div>
+                    <p className="eyebrow">Offline-feeling workflow</p>
+                    <h1>Team Tasks</h1>
+                    <p className="hero-copy">
+                        RTK Query handles server state, entity selectors keep local reads fast, and the UI keeps
+                        moving while background refetches happen.
+                    </p>
                 </div>
 
-                <ul className="task-list">
-                    {tasks.map((task) => {
-                        const isActive = task.id === selectedTaskId;
+                <div className="view-switcher" role="tablist" aria-label="View switcher">
+                    <button
+                        type="button"
+                        className={activeView === "list" ? "switch-pill switch-pill--active" : "switch-pill"}
+                        onClick={() => dispatch(setActiveView("list"))}
+                    >
+                        List
+                    </button>
+                    <button
+                        type="button"
+                        className={activeView === "kanban" ? "switch-pill switch-pill--active" : "switch-pill"}
+                        onClick={() => dispatch(setActiveView("kanban"))}
+                    >
+                        Kanban
+                    </button>
+                </div>
+            </header>
 
-                        return (
-                            <li key={task.id}>
-                                <button
-                                    className={`task-card${isActive ? " task-card--active" : ""}`}
-                                    type="button"
-                                    onClick={() => setSelectedTaskId(task.id)}
-                                >
-                                    <span className="task-card__title">{task.title}</span>
-                                    <span className="task-card__meta">
-                                        <strong>{task.status}</strong>
-                                        <span>likes: {task.likes}</span>
-                                    </span>
-                                </button>
-                            </li>
-                        );
-                    })}
-                </ul>
+            <section className="summary-grid">
+                <article className="summary-card">
+                    <p className="summary-label">Todo</p>
+                    <strong>{taskCounts.todo}</strong>
+                </article>
+                <article className="summary-card">
+                    <p className="summary-label">In progress</p>
+                    <strong>{taskCounts.in_progress}</strong>
+                </article>
+                <article className="summary-card">
+                    <p className="summary-label">Done</p>
+                    <strong>{taskCounts.done}</strong>
+                </article>
             </section>
 
-            <aside className="panel panel--detail">
-                <div className="panel-header">
-                    <div>
-                        <p className="eyebrow">Selected task</p>
-                        <h2>Details</h2>
-                    </div>
-                    {selectedTaskId ? (
-                        <span className="status-pill">Updating: {String(isTaskFetching)}</span>
-                    ) : null}
+            <section className="workspace-grid">
+                <div className="workspace-main">
+                    {activeView === "list" ? <TaskListPage teamId={teamId} /> : <KanbanBoard teamId={teamId} />}
                 </div>
 
-                {!selectedTaskId ? <p className="empty-state">Pick a task to see its details.</p> : null}
-                {isTaskLoading ? <p className="empty-state">Loading task...</p> : null}
-                {selectedTaskError ? <p className="empty-state">Could not load the selected task.</p> : null}
+                <aside className="workspace-side">
+                    <TaskDetails />
 
-                {selectedTask ? (
-                    <div className="detail-card">
-                        <h3>{selectedTask.title}</h3>
-                        <dl className="detail-grid">
+                    <section className="panel">
+                        <div className="panel-header">
                             <div>
-                                <dt>ID</dt>
-                                <dd>{selectedTask.id}</dd>
+                                <p className="eyebrow">Memoized selector</p>
+                                <h2>Top liked</h2>
                             </div>
-                            <div>
-                                <dt>Team</dt>
-                                <dd>{selectedTask.teamId}</dd>
-                            </div>
-                            <div>
-                                <dt>Status</dt>
-                                <dd>{selectedTask.status}</dd>
-                            </div>
-                            <div>
-                                <dt>Likes</dt>
-                                <dd>{selectedTask.likes}</dd>
-                            </div>
-                            <div>
-                                <dt>Liked by me</dt>
-                                <dd>{selectedTask.likedByMe ? "Yes" : "No"}</dd>
-                            </div>
-                        </dl>
-                    </div>
-                ) : null}
-            </aside>
+                        </div>
+
+                        <ul className="top-list">
+                            {topTasks.map((task) => (
+                                <li key={task.id} className="top-list__item">
+                                    <span>{task.title}</span>
+                                    <strong>{task.likes}</strong>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                </aside>
+            </section>
         </main>
     );
 }
