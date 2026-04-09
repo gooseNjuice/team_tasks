@@ -4,8 +4,9 @@
     font-weight: 400;
     color: #0f172a;
     background:
-        radial-gradient(circle at top, rgba(251, 146, 60, 0.2), transparent 30%),
-        linear-gradient(180deg, #fffaf2 0%, #f8fafc 100%);
+        radial-gradient(circle at top left, rgba(249, 115, 22, 0.24), transparent 24%),
+        radial-gradient(circle at top right, rgba(14, 165, 233, 0.16), transparent 26%),
+        linear-gradient(180deg, #fffaf4 0%, #f8fafc 100%);
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -27,6 +28,15 @@ input,
 textarea,
 select {
     font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
 }
 
 #root {
