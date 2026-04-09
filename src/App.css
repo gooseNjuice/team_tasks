@@ -1,134 +1,378 @@
 .app-shell {
-    display: grid;
-    gap: 1.5rem;
-    max-width: 1100px;
+    width: min(1280px, calc(100vw - 2rem));
     margin: 0 auto;
-    padding: 2rem 1rem 3rem;
+    padding: 2rem 0 3rem;
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    align-items: end;
+    margin-bottom: 1.5rem;
+}
+
+.hero h1,
+.panel h2 {
+    margin-bottom: 0.4rem;
+}
+
+.hero-copy {
+    max-width: 60ch;
+    margin: 0;
+    color: #475569;
+}
+
+.view-switcher {
+    display: inline-flex;
+    gap: 0.5rem;
+    padding: 0.35rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.switch-pill,
+.ghost-button,
+.accent-button,
+.task-card,
+.kanban-card__title {
+    border: 1px solid transparent;
+    border-radius: 16px;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease,
+        background-color 0.18s ease;
+}
+
+.switch-pill,
+.ghost-button,
+.accent-button {
+    padding: 0.75rem 1rem;
+}
+
+.switch-pill {
+    background: transparent;
+    color: #334155;
+}
+
+.switch-pill--active {
+    background: #f97316;
+    color: white;
+    box-shadow: 0 10px 24px rgba(249, 115, 22, 0.28);
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.summary-card,
+.panel,
+.notification {
+    background: rgba(255, 255, 255, 0.84);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.1);
+    border-radius: 24px;
+}
+
+.summary-card {
+    padding: 1.2rem;
+}
+
+.summary-card strong {
+    font-size: 2rem;
+}
+
+.summary-label {
+    margin-bottom: 0.45rem;
+    color: #78716c;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+}
+
+.workspace-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.9fr);
+    gap: 1.25rem;
+    align-items: start;
+}
+
+.workspace-side,
+.workspace-main {
+    display: grid;
+    gap: 1.25rem;
 }
 
 .panel {
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
     padding: 1.25rem;
-}
-
-.panel--detail {
-    align-self: start;
 }
 
 .panel-header {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
     align-items: start;
+    gap: 1rem;
     margin-bottom: 1rem;
 }
 
 .eyebrow {
     margin: 0 0 0.35rem;
+    color: #c2410c;
     text-transform: uppercase;
     letter-spacing: 0.14em;
     font-size: 0.72rem;
-    color: #b45309;
+    font-weight: 700;
+}
+
+.toolbar,
+.editor-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.toolbar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 1rem;
+}
+
+.field {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.field span {
+    color: #475569;
+    font-size: 0.88rem;
+}
+
+.field input,
+.field textarea,
+.field select {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid #cbd5e1;
+    background: white;
+    padding: 0.85rem 0.95rem;
+    color: #0f172a;
+}
+
+.fetch-state,
+.pagination,
+.detail-actions,
+.kanban-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.fetch-state {
+    color: #475569;
+    font-size: 0.92rem;
+    margin-bottom: 1rem;
 }
 
 .status-pill {
     background: #fff7ed;
     color: #9a3412;
     border-radius: 999px;
-    padding: 0.45rem 0.8rem;
-    font-size: 0.85rem;
+    padding: 0.55rem 0.8rem;
     white-space: nowrap;
+    font-size: 0.88rem;
+}
+
+.accent-button {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+    box-shadow: 0 18px 40px rgba(249, 115, 22, 0.24);
+}
+
+.ghost-button {
+    background: white;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+.accent-button:hover,
+.ghost-button:hover,
+.task-card:hover,
+.switch-pill:hover,
+.kanban-card__title:hover {
+    transform: translateY(-1px);
+}
+
+.task-list,
+.top-list,
+.kanban-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .task-list {
-    list-style: none;
     display: grid;
-    gap: 0.75rem;
-    padding: 0;
-    margin: 0;
+    gap: 0.8rem;
 }
 
 .task-card {
     width: 100%;
     text-align: left;
-    border: 1px solid #e2e8f0;
-    background: #fff;
-    color: #0f172a;
+    background: white;
     padding: 1rem;
-    border-radius: 18px;
-}
-
-.task-card:hover {
-    border-color: #fb923c;
+    border-color: #e2e8f0;
 }
 
 .task-card--active {
     border-color: #ea580c;
-    box-shadow: 0 12px 30px rgba(234, 88, 12, 0.18);
+    box-shadow: 0 14px 30px rgba(234, 88, 12, 0.18);
 }
 
-.task-card__title {
+.task-card__title,
+.kanban-card__title {
     display: block;
+    margin-bottom: 0.45rem;
     font-size: 1rem;
     font-weight: 700;
-    margin-bottom: 0.45rem;
+    color: #0f172a;
+}
+
+.task-card__description,
+.detail-description,
+.kanban-card p {
+    margin: 0 0 0.75rem;
+    color: #475569;
 }
 
 .task-card__meta {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
-    color: #475569;
+    gap: 0.75rem;
+    color: #64748b;
     font-size: 0.92rem;
 }
 
-.detail-card {
-    background: linear-gradient(135deg, #fff7ed, #ffffff);
-    border-radius: 20px;
-    padding: 1.25rem;
-    min-height: 16rem;
+.pagination {
+    justify-content: space-between;
+    margin-top: 1rem;
 }
 
-.detail-card h3 {
-    margin-top: 0;
+.detail-card {
+    background: linear-gradient(180deg, rgba(255, 247, 237, 0.95), rgba(255, 255, 255, 0.98));
+    border-radius: 22px;
+    padding: 1.2rem;
     margin-bottom: 1rem;
-    font-size: 1.5rem;
 }
 
 .detail-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
     margin: 0;
 }
 
 .detail-grid dt {
-    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
+    color: #78716c;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #78716c;
-    margin-bottom: 0.3rem;
+    font-size: 0.74rem;
 }
 
 .detail-grid dd {
     margin: 0;
-    font-weight: 600;
-    color: #111827;
+    font-weight: 700;
 }
 
-.empty-state,
-.app-state {
-    margin: 0;
-    color: #475569;
+.kanban-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
 }
 
-@media (min-width: 64rem) {
-    .app-shell {
-        grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+.kanban-column {
+    background: rgba(248, 250, 252, 0.85);
+    border: 1px solid rgba(203, 213, 225, 0.9);
+    border-radius: 22px;
+    padding: 1rem;
+}
+
+.kanban-column__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+}
+
+.kanban-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.kanban-card {
+    background: white;
+    border-radius: 18px;
+    border: 1px solid #e2e8f0;
+    padding: 0.9rem;
+}
+
+.kanban-card__title {
+    padding: 0;
+    background: transparent;
+    text-align: left;
+}
+
+.top-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.top-list__item {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 0.9rem;
+    border-radius: 18px;
+    background: rgba(255, 247, 237, 0.7);
+}
+
+.notification-stack {
+    position: sticky;
+    top: 1rem;
+    z-index: 5;
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.notification {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 1.1rem;
+}
+
+.empty-state {
+    color: #64748b;
+}
+
+@media (max-width: 960px) {
+    .workspace-grid,
+    .kanban-grid,
+    .summary-grid,
+    .toolbar {
+        grid-template-columns: 1fr;
+    }
+
+    .hero,
+    .panel-header {
+        flex-direction: column;
+        align-items: stretch;
     }
 }
